@@ -1,34 +1,54 @@
-import { Box, Link, TextField } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, TextField } from "@mui/material";
+import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { addUser, readUsersData } from "../../utils/usersUtlis";
 
 export const Home = () => {
   const [username, setUsername] = useState("");
+  const [error, setError] = useState("");
 
   const handleUsernameChange = (event) => {
     event.preventDefault();
     setUsername(event.target.value);
+    setError("");
+  };
+
+  const handleStart = () => {
+    try {
+      addUser(username);
+      setError("");
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const isUsernameValid = () => {
+    const usersData = readUsersData();
+    return !usersData.users.some((u) => u.username === username);
   };
 
   return (
     <Box>
       <TextField
-        label="enter username"
+        label="Enter Username"
         name="username"
         value={username}
         onChange={handleUsernameChange}
         fullWidth
-      ></TextField>
-
+        error={!!error}
+        helperText={error}
+        margin="normal"
+      />
       {username && (
-        <Link
+        <Button
           component={RouterLink}
-          variant="h4"
-          to={"/images"}
-          underline="none"
+          to={isUsernameValid() ? "/images" : "#"}
+          state={{ username }}
+          variant="contained"
+          onClick={handleStart}
         >
           Start
-        </Link>
+        </Button>
       )}
     </Box>
   );
