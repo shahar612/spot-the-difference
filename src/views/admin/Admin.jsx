@@ -1,12 +1,13 @@
 import {
-    Box,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import { readUsersData } from "../../utils/usersUtlis";
@@ -16,6 +17,7 @@ export const Admin = () => {
 
   return (
     <Box sx={{ padding: 4 }}>
+      <Typography variant="h2" mb={2}>Admin page</Typography>
       <TableContainer
         component={Paper}
         sx={{
@@ -24,6 +26,9 @@ export const Admin = () => {
           minWidth: "90vw",
           overflowX: "auto",
           position: "relative",
+          "::-webkit-scrollbar": {
+            display: "none",
+          },
         }}
       >
         <Table stickyHeader>
